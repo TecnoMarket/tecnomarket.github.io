@@ -1,54 +1,35 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TecnoDesk | Innovación Tech</title>
-    <style>
-        body {
-            background-color: #0f172a; /* Azul oscuro tech */
-            color: #f8fafc;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            text-align: center;
-            border: 1px solid #1e293b;
-            padding: 3rem;
-            border-radius: 15px;
-            background: #1e293b;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-        }
-        h1 {
-            color: #38bdf8; /* Azul neón */
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        p {
-            color: #94a3b8;
-            font-size: 1.1rem;
-        }
-        .status {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 5px 15px;
-            background: #0ea5e9;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>TecnoDesk</h1>
-        <p>Plataforma de tecnología e ingeniería.</p>
-        <div class="status">En Desarrollo</div>
+<style>
+    :root {
+        --apple-bg: #f5f5f7;
+        --apple-text: #1d1d1f;
+    }
+    body { font-family: 'SF Pro Display', sans-serif; background-color: var(--apple-bg); color: var(--apple-text); margin: 0; padding: 20px; text-align: center; }
+    .grid-tienda { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 40px; }
+    .producto { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); transition: 0.3s; }
+    .producto:hover { transform: translateY(-5px); }
+    .precio { font-size: 24px; font-weight: 600; margin: 15px 0; }
+    .btn-comprar { background: #0071e3; color: white; padding: 12px 24px; border-radius: 20px; text-decoration: none; display: inline-block; font-weight: 500; }
+</style>
+
+<header>
+    <h1>TecnoMarket</h1>
+    <p>Lo último en tecnología y accesorios.</p>
+</header>
+
+<div class="grid-tienda">
+    <div class="producto">
+        <img src="https://via.placeholder.com/200" alt="iPhone 15">
+        <h2>iPhone 15 Pro</h2>
+        <p>Titanio natural. El chip más potente.</p>
+        <div class="precio">S/ 4,299</div>
+        <a href="https://wa.me/TUNUMERO" class="btn-comprar">Pedir por WhatsApp</a>
     </div>
-</body>
-</html>
+
+    <div class="producto">
+        <img src="https://via.placeholder.com/200" alt="Audífonos">
+        <h2>AirPods Pro (2da Gen)</h2>
+        <p>Cancelación de ruido mejorada.</p>
+        <div class="precio">S/ 949</div>
+        <a href="https://wa.me/TUNUMERO" class="btn-comprar">Pedir por WhatsApp</a>
+    </div>
+</div>
