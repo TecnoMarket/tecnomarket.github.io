@@ -70,6 +70,9 @@
             text-decoration: none;
             font-weight: 600;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         .theme-toggle { background: none; border: none; cursor: pointer; color: var(--text); display: flex; }
 
@@ -215,6 +218,10 @@
         <button class="close-btn" onclick="closeAuth()"><i data-lucide="x"></i></button>
         <h2 id="authTitle">Bienvenido</h2>
         <form onsubmit="handleAuth(event)">
+            <div class="input-group" id="groupName" style="display: none;">
+                <label>Nombre Completo</label>
+                <input type="text" id="userName" placeholder="Juan Pérez">
+            </div>
             <div class="input-group"><label>Correo</label><input type="email" id="userEmail" required></div>
             <div class="input-group"><label>Contraseña</label><input type="password" id="userPass" required></div>
             <button type="submit" class="btn-auth" id="btnAuthAction">Iniciar Sesión</button>
@@ -236,9 +243,9 @@
 </div>
 
 <script type="module">
-// --- CONFIGURACIÓN DE FIREBASE (TU DNI) ---
+// --- CONFIGURACIÓN DE FIREBASE ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyA8wdjRqE5SuqjjRFaBmucZhLBSTqsX6v4",
@@ -249,7 +256,6 @@ const firebaseConfig = {
     appId: "1:663313034203:web:8c6492e849de32587855fe"
 };
 
-// Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
@@ -260,54 +266,60 @@ window.openAuth = () => document.getElementById('authModal').style.display = 'fl
 window.closeAuth = () => document.getElementById('authModal').style.display = 'none';
 
 window.toggleAuthMode = () => {
-    isLoginMode = !isLoginMode;
-    document.getElementById('authTitle').innerText = isLoginMode ? "Bienvenido" : "Crea tu cuenta";
-    document.getElementById('btnAuthAction').innerText = isLoginMode ? "Iniciar Sesión" : "Registrarme";
-    document.getElementById('switchText').innerText = isLoginMode ? "¿No tienes cuenta?" : "¿Ya tienes cuenta?";
-    document.getElementById('switchLink').innerText = isLoginMode ? "Regístrate" : "Inicia Sesión";
+    window.isLoginMode = !window.isLoginMode;
+    document.getElementById('authTitle').innerText = window.isLoginMode ? "Bienvenido" : "Crea tu cuenta";
+    document.getElementById('btnAuthAction').innerText = window.isLoginMode ? "Iniciar Sesión" : "Registrarme";
+    document.getElementById('switchText').innerText = window.isLoginMode ? "¿No tienes cuenta?" : "¿Ya tienes cuenta?";
+    document.getElementById('switchLink').innerText = window.isLoginMode ? "Regístrate" : "Inicia Sesión";
+    
+    // Mostrar/Ocultar campo de nombre
+    document.getElementById('groupName').style.display = window.isLoginMode ? 'none' : 'block';
 };
 
-// Función para Registrar o Iniciar Sesión de verdad
 window.handleAuth = async (event) => {
     event.preventDefault();
     const email = document.getElementById('userEmail').value;
     const pass = document.getElementById('userPass').value;
+    const name = document.getElementById('userName').value;
     const btn = document.getElementById('btnAuthAction');
 
-    btn.innerText = "Cargando...";
+    btn.innerText = "Procesando...";
     btn.disabled = true;
 
     try {
-        if (isLoginMode) {
+        if (window.isLoginMode) {
             await signInWithEmailAndPassword(auth, email, pass);
-            alert("¡Hola de nuevo!");
         } else {
-            await createUserWithEmailAndPassword(auth, email, pass);
-            alert("¡Cuenta creada con éxito!");
+            const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+            // Guardar el nombre en el perfil de Firebase
+            await updateProfile(userCredential.user, { displayName: name });
+            alert("¡Bienvenido " + name + "!");
         }
         closeAuth();
     } catch (error) {
         alert("Error: " + error.message);
     } finally {
-        btn.innerText = isLoginMode ? "Iniciar Sesión" : "Registrarme";
+        btn.innerText = window.isLoginMode ? "Iniciar Sesión" : "Registrarme";
         btn.disabled = false;
     }
 };
 
-// Escuchar si el usuario está logueado para cambiar el botón de "Mi Cuenta"
 onAuthStateChanged(auth, (user) => {
     const btnPortal = document.querySelector('.btn-portal');
     if (user) {
-        btnPortal.innerText = "Cerrar Sesión";
-        btnPortal.onclick = () => signOut(auth);
-        console.log("Usuario activo:", user.email);
+        const displayName = user.displayName || user.email.split('@')[0];
+        btnPortal.innerHTML = `<i data-lucide="user"></i> Hola, ${displayName}`;
+        btnPortal.onclick = () => {
+            if(confirm("¿Deseas cerrar sesión?")) signOut(auth);
+        };
+        lucide.createIcons();
     } else {
-        btnPortal.innerText = "Mi Cuenta";
+        btnPortal.innerHTML = `Mi Cuenta`;
         btnPortal.onclick = openAuth;
     }
 });
 
-// --- LÓGICA DE CARRITO Y TEMA (MANTENER) ---
+// --- LÓGICA DE CARRITO Y TEMA ---
 let cart = [];
 window.toggleTheme = () => {
     const body = document.body;
@@ -333,7 +345,6 @@ window.addToCart = (name, price) => {
 };
 
 lucide.createIcons();
-    
 </script>
 </body>
 </html>
