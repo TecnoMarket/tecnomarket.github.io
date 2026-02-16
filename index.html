@@ -235,51 +235,105 @@
     <a id="wspLink" href="#" class="btn-whatsapp">WhatsApp</a>
 </div>
 
-<script>
-    let cart = [];
-    const WHATSAPP_NUMBER = "51942950226";
+<script type="module">
+// --- CONFIGURACIÓN DE FIREBASE (TU DNI) ---
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-    function toggleTheme() {
-        const body = document.body;
-        const icon = document.getElementById('theme-icon');
-        if (body.getAttribute('data-theme') === 'dark') {
-            body.removeAttribute('data-theme');
-            icon.setAttribute('data-lucide', 'moon');
+const firebaseConfig = {
+    apiKey: "AIzaSyA8wdjRqE5SuqjjRFaBmucZhLBSTqsX6v4",
+    authDomain: "tecno-market-8b2f1.firebaseapp.com",
+    projectId: "tecno-market-8b2f1",
+    storageBucket: "tecno-market-8b2f1.firebasestorage.app",
+    messagingSenderId: "663313034203",
+    appId: "1:663313034203:web:8c6492e849de32587855fe"
+};
+
+// Inicializar Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// --- LÓGICA DE USUARIOS ---
+window.isLoginMode = true;
+
+window.openAuth = () => document.getElementById('authModal').style.display = 'flex';
+window.closeAuth = () => document.getElementById('authModal').style.display = 'none';
+
+window.toggleAuthMode = () => {
+    isLoginMode = !isLoginMode;
+    document.getElementById('authTitle').innerText = isLoginMode ? "Bienvenido" : "Crea tu cuenta";
+    document.getElementById('btnAuthAction').innerText = isLoginMode ? "Iniciar Sesión" : "Registrarme";
+    document.getElementById('switchText').innerText = isLoginMode ? "¿No tienes cuenta?" : "¿Ya tienes cuenta?";
+    document.getElementById('switchLink').innerText = isLoginMode ? "Regístrate" : "Inicia Sesión";
+};
+
+// Función para Registrar o Iniciar Sesión de verdad
+window.handleAuth = async (event) => {
+    event.preventDefault();
+    const email = document.getElementById('userEmail').value;
+    const pass = document.getElementById('userPass').value;
+    const btn = document.getElementById('btnAuthAction');
+
+    btn.innerText = "Cargando...";
+    btn.disabled = true;
+
+    try {
+        if (isLoginMode) {
+            await signInWithEmailAndPassword(auth, email, pass);
+            alert("¡Hola de nuevo!");
         } else {
-            body.setAttribute('data-theme', 'dark');
-            icon.setAttribute('data-lucide', 'sun');
+            await createUserWithEmailAndPassword(auth, email, pass);
+            alert("¡Cuenta creada con éxito!");
         }
-        lucide.createIcons();
+        closeAuth();
+    } catch (error) {
+        alert("Error: " + error.message);
+    } finally {
+        btn.innerText = isLoginMode ? "Iniciar Sesión" : "Registrarme";
+        btn.disabled = false;
     }
+};
 
-    function addToCart(name, price) {
-        cart.push({ name, price });
-        const cartBar = document.getElementById('cartBar');
-        cartBar.style.display = 'flex';
-        document.getElementById('cartCount').innerText = `${cart.length} productos`;
-        let total = cart.reduce((sum, item) => sum + item.price, 0);
-        let message = `¡Hola! Quiero pedir:\n`;
-        cart.forEach((item, i) => message += `${i+1}. ${item.name} - S/ ${item.price}\n`);
-        document.getElementById('wspLink').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message + "\nTotal: S/ " + total)}`;
+// Escuchar si el usuario está logueado para cambiar el botón de "Mi Cuenta"
+onAuthStateChanged(auth, (user) => {
+    const btnPortal = document.querySelector('.btn-portal');
+    if (user) {
+        btnPortal.innerText = "Cerrar Sesión";
+        btnPortal.onclick = () => signOut(auth);
+        console.log("Usuario activo:", user.email);
+    } else {
+        btnPortal.innerText = "Mi Cuenta";
+        btnPortal.onclick = openAuth;
     }
+});
 
-    let isLoginMode = true;
-    function openAuth() { document.getElementById('authModal').style.display = 'flex'; }
-    function closeAuth() { document.getElementById('authModal').style.display = 'none'; }
-    function toggleAuthMode() {
-        isLoginMode = !isLoginMode;
-        document.getElementById('authTitle').innerText = isLoginMode ? "Bienvenido" : "Crea tu cuenta";
-        document.getElementById('btnAuthAction').innerText = isLoginMode ? "Iniciar Sesión" : "Registrarme";
-        document.getElementById('switchText').innerText = isLoginMode ? "¿No tienes cuenta?" : "¿Ya tienes cuenta?";
-        document.getElementById('switchLink').innerText = isLoginMode ? "Regístrate" : "Inicia Sesión";
+// --- LÓGICA DE CARRITO Y TEMA (MANTENER) ---
+let cart = [];
+window.toggleTheme = () => {
+    const body = document.body;
+    const icon = document.getElementById('theme-icon');
+    if (body.getAttribute('data-theme') === 'dark') {
+        body.removeAttribute('data-theme');
+        icon.setAttribute('data-lucide', 'moon');
+    } else {
+        body.setAttribute('data-theme', 'dark');
+        icon.setAttribute('data-lucide', 'sun');
     }
-
-    function handleAuth(event) {
-        event.preventDefault();
-        alert("¡Conexión lista! Esperando tus datos de Firebase.");
-    }
-
     lucide.createIcons();
+};
+
+window.addToCart = (name, price) => {
+    cart.push({ name, price });
+    document.getElementById('cartBar').style.display = 'flex';
+    document.getElementById('cartCount').innerText = `${cart.length} productos`;
+    let total = cart.reduce((sum, item) => sum + item.price, 0);
+    let message = `¡Hola TecnoMarket! Quiero pedir:\n`;
+    cart.forEach((item, i) => message += `${i+1}. ${item.name} - S/ ${item.price}\n`);
+    document.getElementById('wspLink').href = `https://wa.me/51942950226?text=${encodeURIComponent(message + "\nTotal: S/ " + total)}`;
+};
+
+lucide.createIcons();
+    
 </script>
 </body>
 </html>
