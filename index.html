@@ -6,6 +6,10 @@
     <title>TecnoMarket | Premium Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <style>
         :root {
             --bg: #f5f5f7;
@@ -68,8 +72,7 @@
             font-weight: 600;
             cursor: pointer;
             display: flex;
-            align-items: center;
-            gap: 5px;
+            align-items: center; gap: 5px;
         }
         .theme-toggle { background: none; border: none; cursor: pointer; color: var(--text); display: flex; }
 
@@ -77,16 +80,9 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
 
         .card {
-            background: var(--card-bg);
-            border-radius: 28px;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            text-decoration: none;
-            color: inherit;
-            border: 1px solid var(--border);
+            background: var(--card-bg); border-radius: 28px; padding: 30px;
+            text-align: center; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column; text-decoration: none; color: inherit; border: 1px solid var(--border);
         }
         .card:hover { transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
 
@@ -99,26 +95,22 @@
         .price { font-size: 18px; margin-bottom: 20px; font-weight: 600; }
         .btn-add { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: auto; }
 
+        /* --- MODAL Y MAPA --- */
         .auth-modal {
             display: none; position: fixed; z-index: 2000; left: 0; top: 0;
             width: 100%; height: 100%; background: rgba(0,0,0,0.6);
             backdrop-filter: blur(5px); align-items: center; justify-content: center;
         }
         .auth-content {
-            background: var(--card-bg); padding: 40px; border-radius: 28px;
-            width: 90%; max-width: 400px; position: relative; text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            background: var(--card-bg); padding: 30px; border-radius: 28px;
+            width: 90%; max-width: 450px; position: relative; text-align: center;
+            max-height: 90vh; overflow-y: auto;
         }
-        .close-btn { position: absolute; right: 20px; top: 20px; background: none; border: none; cursor: pointer; color: var(--gray); }
-        .input-group { text-align: left; margin-bottom: 20px; }
-        .input-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--gray); }
-        .input-group input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--text); box-sizing: border-box; }
-        .btn-auth { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; }
-        .auth-switch { margin-top: 25px; font-size: 14px; color: var(--gray); }
-        .auth-switch a { color: var(--accent); text-decoration: none; font-weight: 600; }
-
-        .its-footer { background: var(--card-bg); padding: 60px 0; border-top: 1px solid var(--border); margin-top: 80px; color: var(--gray); }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        #map { height: 200px; width: 100%; border-radius: 12px; margin: 10px 0; border: 1px solid var(--border); }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        .input-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: var(--gray); }
+        .input-group input { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); box-sizing: border-box; }
+        .btn-auth { width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; margin-top: 10px; }
         
         .cart-bar { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); color: white; padding: 15px 30px; border-radius: 50px; display: none; align-items: center; gap: 30px; z-index: 1000; }
         .btn-whatsapp { background: #25d366; color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px; }
@@ -130,12 +122,7 @@
 
 <nav class="its-header">
     <div class="header-container">
-        <div class="logo"><a href="index.html">TecnoMarket</a></div>
-        <ul class="nav-menu">
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="#">Productos</a></li>
-            <li><a href="#">Contacto</a></li>
-        </ul>
+        <div class="logo"><a href="#">TecnoMarket</a></div>
         <div class="header-actions">
             <button class="theme-toggle" onclick="toggleTheme()"><i data-lucide="moon" id="theme-icon"></i></button>
             <a href="javascript:void(0)" class="btn-portal" onclick="openAuth()">Mi Cuenta</a>
@@ -143,105 +130,63 @@
     </div>
 </nav>
 
-<header style="padding: 80px 20px; text-align: center;">
-    <h1>Innovación que inspira.</h1>
-    <p style="color:var(--gray); font-size:21px;">Descubre la colección premium de TecnoMarket.</p>
-</header>
-
 <div class="container">
     <div class="grid">
         <div class="card">
-            <a href="001.html" style="text-decoration:none; color:inherit;">
-                <div class="contenedor-foto"><img src="img/001A.jpeg" class="foto-a"><img src="img/001B.jpeg" class="foto-b"></div>
-                <h2>Parlante Touch</h2>
-                <p style="color:var(--gray); font-size:14px; margin-bottom:10px;">Sonido táctil premium.</p>
-                <div class="price">S/ 20</div>
-            </a>
+            <div class="contenedor-foto"><img src="img/001A.jpeg" class="foto-a"><img src="img/001B.jpeg" class="foto-b"></div>
+            <h2>Parlante Touch</h2>
+            <div class="price">S/ 20</div>
             <button class="btn-add" onclick="addToCart('Parlante Touch', 20)"><i data-lucide="plus"></i> Añadir</button>
         </div>
-        <div class="card">
-            <a href="002.html" style="text-decoration:none; color:inherit;">
-                <div class="contenedor-foto"><img src="img/002A.jpeg" class="foto-a"><img src="img/002B.jpeg" class="foto-b"></div>
-                <h2>Humidificador</h2>
-                <p style="color:var(--gray); font-size:14px; margin-bottom:10px;">Frescura total.</p>
-                <div class="price">S/ 25</div>
-            </a>
-            <button class="btn-add" onclick="addToCart('Humidificador', 25)"><i data-lucide="plus"></i> Añadir</button>
         </div>
-        <div class="card">
-            <a href="003.html" style="text-decoration:none; color:inherit;">
-                <div class="contenedor-foto"><img src="img/003A.jpeg" class="foto-a"><img src="img/003B.jpeg" class="foto-b"></div>
-                <h2>Aire Portátil</h2>
-                <p style="color:var(--gray); font-size:14px; margin-bottom:10px;">Controla tu clima.</p>
-                <div class="price">S/ 15</div>
-            </a>
-            <button class="btn-add" onclick="addToCart('Aire Portátil', 15)"><i data-lucide="plus"></i> Añadir</button>
-        </div>
-        <div class="card">
-            <a href="004.html" style="text-decoration:none; color:inherit;">
-                <div class="contenedor-foto"><img src="img/004A.jpeg" class="foto-a"><img src="img/004B.jpeg" class="foto-b"></div>
-                <h2>Ventilador Cuello</h2>
-                <p style="color:var(--gray); font-size:14px; margin-bottom:10px;">Aire personal.</p>
-                <div class="price">S/ 15</div>
-            </a>
-            <button class="btn-add" onclick="addToCart('Ventilador Cuello', 15)"><i data-lucide="plus"></i> Añadir</button>
-        </div>
-        <div class="card">
-            <a href="005.html" style="text-decoration:none; color:inherit;">
-                <div class="contenedor-foto"><img src="img/005A.jpeg" class="foto-a"><img src="img/005B.jpeg" class="foto-b"></div>
-                <h2>Teclado/Mouse</h2>
-                <p style="color:var(--gray); font-size:14px; margin-bottom:10px;">Combo inalámbrico.</p>
-                <div class="price">S/ 15</div>
-            </a>
-            <button class="btn-add" onclick="addToCart('Teclado/Mouse', 15)"><i data-lucide="plus"></i> Añadir</button>
-        </div>
-        <div class="card">
-            <a href="006.html" style="text-decoration:none; color:inherit;">
-                <div class="contenedor-foto"><img src="img/006A.jpeg" class="foto-a"><img src="img/006B.jpeg" class="foto-b"></div>
-                <h2>Ventilador Mano</h2>
-                <p style="color:var(--gray); font-size:14px; margin-bottom:10px;">Potencia portátil.</p>
-                <div class="price">S/ 15</div>
-            </a>
-            <button class="btn-add" onclick="addToCart('Ventilador Mano', 15)"><i data-lucide="plus"></i> Añadir</button>
-        </div>
-    </div>
 </div>
 
 <div id="authModal" class="auth-modal">
     <div class="auth-content">
-        <button class="close-btn" onclick="closeAuth()"><i data-lucide="x"></i></button>
-        <h2 id="authTitle">Bienvenido</h2>
-        <form onsubmit="handleAuth(event)">
-            <div class="input-group" id="groupName" style="display: none;">
-                <label>Nombre Completo</label>
-                <input type="text" id="userName" placeholder="Juan Pérez">
-            </div>
-            <div class="input-group" id="groupAddress" style="display: none;">
-                <label>Dirección de Envío</label>
-                <input type="text" id="userAddress" placeholder="Av. Principal 123, Distrito">
-            </div>
-            <div class="input-group"><label>Correo</label><input type="email" id="userEmail" required></div>
-            <div class="input-group"><label>Contraseña</label><input type="password" id="userPass" required></div>
-            <button type="submit" class="btn-auth" id="btnAuthAction">Iniciar Sesión</button>
-        </form>
-        <p class="auth-switch"><span id="switchText">¿No tienes cuenta?</span> <a href="javascript:void(0)" onclick="toggleAuthMode()" id="switchLink">Regístrate</a></p>
+        <button class="close-btn" style="position:absolute; right:20px; top:20px; background:none; border:none; cursor:pointer;" onclick="closeAuth()"><i data-lucide="x"></i></button>
+        
+        <div id="authFields">
+            <h2 id="authTitle">Bienvenido</h2>
+            <form onsubmit="handleAuth(event)">
+                <div class="input-group" id="groupName" style="display:none;">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="userName" placeholder="Juan Pérez">
+                </div>
+                <div class="input-group"><label>Correo</label><input type="email" id="userEmail" required></div>
+                <div id="registerOnlyFields" style="display:none;">
+                    <div class="input-group">
+                        <label>Dirección Escrita</label>
+                        <input type="text" id="userAddress" placeholder="Calle, Número, Distrito">
+                    </div>
+                    <label style="font-size:12px; font-weight:600; color:var(--gray);">Ubícate en el mapa</label>
+                    <div id="map"></div>
+                </div>
+                <div class="input-group" id="groupPass"><label>Contraseña</label><input type="password" id="userPass" required></div>
+                <button type="submit" class="btn-auth" id="btnAuthAction">Iniciar Sesión</button>
+            </form>
+            <p class="auth-switch" style="font-size:13px; margin-top:15px;">
+                <span id="switchText">¿No tienes cuenta?</span> 
+                <a href="javascript:void(0)" onclick="toggleAuthMode()" id="switchLink" style="color:var(--accent); font-weight:600; text-decoration:none;">Regístrate</a>
+            </p>
+        </div>
+
+        <div id="profileFields" style="display:none;">
+            <h2>Mi Perfil</h2>
+            <div class="input-group"><label>Nombre</label><input type="text" id="editName"></div>
+            <div class="input-group"><label>Dirección</label><input type="text" id="editAddress"></div>
+            <div class="input-group"><label>Ajustar Ubicación</label><div id="mapProfile" style="height:180px; border-radius:10px;"></div></div>
+            <button class="btn-auth" onclick="updateUserData()">Guardar Cambios</button>
+            <button class="btn-auth" style="background:#ff3b30;" onclick="handleSignOut()">Cerrar Sesión</button>
+        </div>
     </div>
 </div>
 
-<footer class="its-footer">
-    <div class="footer-grid">
-        <div><h4>TecnoMarket</h4><p>Accesorios Premium.</p></div>
-        <div><h4>Contacto</h4><p>+51 942 950 226</p></div>
-    </div>
-</footer>
-
 <div id="cartBar" class="cart-bar">
-    <div id="cartCount">0 items</div>
-    <a id="wspLink" href="#" class="btn-whatsapp">WhatsApp</a>
+    <div id="cartCount">0 productos</div>
+    <a id="wspLink" href="#" class="btn-whatsapp"><i data-lucide="message-circle"></i> WhatsApp</a>
 </div>
 
 <script type="module">
-// --- FIREBASE + FIRESTORE ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -259,77 +204,99 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-let currentUserData = null; // Para guardar datos del usuario logueado
+let currentUserData = null;
+let map, marker, selectedLat, selectedLng;
 
-// --- LÓGICA DE USUARIOS ---
+// --- LÓGICA DE MAPA ---
+function initLeaflet(containerId, lat = -12.046, lng = -77.042) {
+    if (map) map.remove();
+    map = L.map(containerId).setView([lat, lng], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    marker = L.marker([lat, lng], { draggable: true }).addTo(map);
+    
+    selectedLat = lat; selectedLng = lng;
+
+    const updateCoords = (ll) => { selectedLat = ll.lat; selectedLng = ll.lng; };
+    marker.on('dragend', (e) => updateCoords(e.target.getLatLng()));
+    map.on('click', (e) => { marker.setLatLng(e.latlng); updateCoords(e.latlng); });
+}
+
+// --- AUTH ---
 window.isLoginMode = true;
-window.openAuth = () => document.getElementById('authModal').style.display = 'flex';
 window.closeAuth = () => document.getElementById('authModal').style.display = 'none';
+
+window.openAuth = () => {
+    document.getElementById('authModal').style.display = 'flex';
+    const isLogged = !!auth.currentUser;
+    document.getElementById('authFields').style.display = isLogged ? 'none' : 'block';
+    document.getElementById('profileFields').style.display = isLogged ? 'block' : 'none';
+    
+    setTimeout(() => {
+        if (isLogged && currentUserData) {
+            document.getElementById('editName').value = currentUserData.nombre;
+            document.getElementById('editAddress').value = currentUserData.direccion;
+            initLeaflet('mapProfile', currentUserData.lat || -12.046, currentUserData.lng || -77.042);
+        } else if (!window.isLoginMode) {
+            initLeaflet('map');
+        }
+    }, 200);
+};
 
 window.toggleAuthMode = () => {
     window.isLoginMode = !window.isLoginMode;
     document.getElementById('authTitle').innerText = window.isLoginMode ? "Bienvenido" : "Crea tu cuenta";
-    document.getElementById('btnAuthAction').innerText = window.isLoginMode ? "Iniciar Sesión" : "Registrarme";
-    document.getElementById('switchText').innerText = window.isLoginMode ? "¿No tienes cuenta?" : "¿Ya tienes cuenta?";
-    document.getElementById('switchLink').innerText = window.isLoginMode ? "Regístrate" : "Inicia Sesión";
-    
     document.getElementById('groupName').style.display = window.isLoginMode ? 'none' : 'block';
-    document.getElementById('groupAddress').style.display = window.isLoginMode ? 'none' : 'block';
+    document.getElementById('registerOnlyFields').style.display = window.isLoginMode ? 'none' : 'block';
+    document.getElementById('btnAuthAction').innerText = window.isLoginMode ? "Iniciar Sesión" : "Registrarme";
+    if (!window.isLoginMode) setTimeout(() => initLeaflet('map'), 100);
 };
 
-window.handleAuth = async (event) => {
-    event.preventDefault();
+window.handleAuth = async (e) => {
+    e.preventDefault();
     const email = document.getElementById('userEmail').value;
     const pass = document.getElementById('userPass').value;
-    const name = document.getElementById('userName').value;
-    const address = document.getElementById('userAddress').value;
-    const btn = document.getElementById('btnAuthAction');
-
-    btn.innerText = "Procesando...";
-    btn.disabled = true;
-
     try {
         if (window.isLoginMode) {
             await signInWithEmailAndPassword(auth, email, pass);
         } else {
-            const userCred = await createUserWithEmailAndPassword(auth, email, pass);
-            await updateProfile(userCred.user, { displayName: name });
-            
-            // Guardar en Firestore
-            await setDoc(doc(db, "users", userCred.user.uid), {
-                nombre: name,
-                direccion: address,
-                email: email
+            const name = document.getElementById('userName').value;
+            const addr = document.getElementById('userAddress').value;
+            const res = await createUserWithEmailAndPassword(auth, email, pass);
+            await updateProfile(res.user, { displayName: name });
+            await setDoc(doc(db, "users", res.user.uid), {
+                nombre: name, direccion: addr, lat: selectedLat, lng: selectedLng, email: email
             });
-            alert("¡Registro exitoso!");
         }
         closeAuth();
-    } catch (error) { alert("Error: " + error.message); }
-    finally {
-        btn.innerText = window.isLoginMode ? "Iniciar Sesión" : "Registrarme";
-        btn.disabled = false;
-    }
+    } catch (err) { alert(err.message); }
 };
 
-onAuthStateChanged(auth, async (user) => {
-    const btnPortal = document.querySelector('.btn-portal');
-    if (user) {
-        // Recuperar dirección de Firestore
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) currentUserData = docSnap.data();
+window.updateUserData = async () => {
+    const user = auth.currentUser;
+    const name = document.getElementById('editName').value;
+    const addr = document.getElementById('editAddress').value;
+    await setDoc(doc(db, "users", user.uid), {
+        nombre: name, direccion: addr, lat: selectedLat, lng: selectedLng
+    }, { merge: true });
+    alert("¡Perfil actualizado!");
+    location.reload();
+};
 
-        btnPortal.innerHTML = `<i data-lucide="user"></i> Hola, ${user.displayName || 'Usuario'}`;
-        btnPortal.onclick = () => { if(confirm("¿Cerrar sesión?")) signOut(auth); };
-        lucide.createIcons();
+window.handleSignOut = () => signOut(auth).then(() => location.reload());
+
+onAuthStateChanged(auth, async (user) => {
+    const btn = document.querySelector('.btn-portal');
+    if (user) {
+        const snap = await getDoc(doc(db, "users", user.uid));
+        if (snap.exists()) currentUserData = snap.data();
+        btn.innerHTML = `<i data-lucide="user"></i> ${user.displayName || 'Perfil'}`;
     } else {
-        currentUserData = null;
-        btnPortal.innerHTML = `Mi Cuenta`;
-        btnPortal.onclick = openAuth;
+        btn.innerHTML = `Mi Cuenta`;
     }
+    lucide.createIcons();
 });
 
-// --- CARRITO + WHATSAPP ---
+// --- CARRITO ---
 let cart = [];
 window.addToCart = (name, price) => {
     cart.push({ name, price });
@@ -339,31 +306,23 @@ window.addToCart = (name, price) => {
 };
 
 function updateWspLink() {
-    let total = cart.reduce((sum, item) => sum + item.price, 0);
-    let message = `¡Hola TecnoMarket!\n\n`;
-    
+    let total = cart.reduce((s, i) => s + i.price, 0);
+    let msg = `¡Hola TecnoMarket!\n\n`;
     if (currentUserData) {
-        message += `Cliente: ${currentUserData.nombre}\n`;
-        message += `Dirección: ${currentUserData.direccion}\n\n`;
+        msg += `*Cliente:* ${currentUserData.nombre}\n*Dirección:* ${currentUserData.direccion}\n`;
+        if(currentUserData.lat) msg += `*Ubicación:* https://www.google.com/maps?q=${currentUserData.lat},${currentUserData.lng}\n\n`;
     }
-    
-    message += `Pedido:\n`;
-    cart.forEach((item, i) => message += `- ${item.name} (S/ ${item.price})\n`);
-    message += `\nTotal: S/ ${total}`;
-    
-    document.getElementById('wspLink').href = `https://wa.me/51942950226?text=${encodeURIComponent(message)}`;
+    msg += `*Pedido:*\n`;
+    cart.forEach(i => msg += `- ${i.name} (S/ ${i.price})\n`);
+    msg += `\n*Total: S/ ${total}*`;
+    document.getElementById('wspLink').href = `https://wa.me/51942950226?text=${encodeURIComponent(msg)}`;
 }
 
 window.toggleTheme = () => {
-    const body = document.body;
-    const icon = document.getElementById('theme-icon');
-    if (body.getAttribute('data-theme') === 'dark') {
-        body.removeAttribute('data-theme');
-        icon.setAttribute('data-lucide', 'moon');
-    } else {
-        body.setAttribute('data-theme', 'dark');
-        icon.setAttribute('data-lucide', 'sun');
-    }
+    const b = document.body;
+    const isDark = b.getAttribute('data-theme') === 'dark';
+    isDark ? b.removeAttribute('data-theme') : b.setAttribute('data-theme', 'dark');
+    document.getElementById('theme-icon').setAttribute('data-lucide', isDark ? 'moon' : 'sun');
     lucide.createIcons();
 };
 
