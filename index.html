@@ -3,234 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TecnoMarket | Premium Store</title>
+    <title>Parlante Touch | TecnoMarket</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --bg: #f5f5f7;
-            --card-bg: #ffffff;
+            --apple-bg: #f5f5f7;
+            --white: #ffffff;
             --text: #1d1d1f;
             --accent: #0071e3;
             --gray: #86868b;
+            --its-border: #e0e0e0;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
+            background-color: var(--apple-bg);
             color: var(--text);
             margin: 0;
-            padding-bottom: 120px;
             -webkit-font-smoothing: antialiased;
         }
 
-        header { padding: 80px 20px; text-align: center; background: white; border-bottom: 1px solid #d2d2d7; }
-        h1 { font-size: 48px; font-weight: 600; margin: 0; letter-spacing: -0.02em; }
-        .subtitle { color: var(--gray); font-size: 21px; margin-top: 10px; }
-
-        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 28px;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        /* --- ENCABEZADO ESTILO ITS --- */
+        .its-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--its-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .logo a {
+            font-size: 22px;
+            color: #1d1d1f;
             text-decoration: none;
-            color: inherit;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-menu a {
+            text-decoration: none;
+            color: #444;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        .nav-menu a:hover { color: var(--accent); }
+        
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .btn-portal {
+            background: var(--accent);
+            color: white !important;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: 600;
         }
 
-        .card:hover { transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
-
-        .contenedor-foto {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            margin-bottom: 20px;
+        /* --- CONTENIDO PRINCIPAL --- */
+        .main-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 50px;
         }
 
-        .contenedor-foto img {
+        .gallery-section { display: flex; flex-direction: column; gap: 20px; }
+        .gallery-section img {
             width: 100%;
-            height: 100%;
+            border-radius: 30px;
+            background: var(--white);
             object-fit: contain;
-            position: absolute;
-            top: 0; left: 0;
-            transition: opacity 0.4s ease;
+            padding: 40px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
         }
 
-        .foto-b { opacity: 0; }
-        .card:hover .foto-a { opacity: 0; }
-        .card:hover .foto-b { opacity: 1; }
+        .info-section { position: sticky; top: 100px; height: fit-content; }
+        .new-tag { color: #bf4800; font-size: 14px; font-weight: 600; margin-bottom: 10px; display: block; }
+        h1 { font-size: 48px; font-weight: 600; margin: 0 0 10px 0; letter-spacing: -0.02em; }
+        .tagline { font-size: 24px; color: var(--gray); margin-bottom: 20px; line-height: 1.2; }
+        .price { font-size: 24px; font-weight: 400; margin-bottom: 40px; }
 
-        h2 { font-size: 22px; font-weight: 600; margin: 10px 0; }
-        .apple-desc { color: var(--gray); font-size: 14px; margin-bottom: 10px; }
-        .price { font-size: 18px; color: var(--text); margin-bottom: 20px; font-weight: 600; }
+        .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px; }
+        .spec-card {
+            background: var(--white);
+            padding: 25px 15px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+        .spec-card i { color: var(--accent); margin-bottom: 12px; }
+        .spec-card span { display: block; font-size: 13px; font-weight: 500; line-height: 1.3; }
 
-        .btn-add {
+        .buy-btn {
             background: var(--accent);
             color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 500;
-            z-index: 10;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: auto;
-            transition: background 0.2s;
+            padding: 18px;
+            border-radius: 14px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            font-weight: 600;
+            font-size: 17px;
+            transition: all 0.3s ease;
+        }
+        .buy-btn:hover { transform: scale(0.98); opacity: 0.9; }
+
+        /* --- PIE DE PÁGINA ESTILO ITS --- */
+        .its-footer {
+            background: #ffffff;
+            padding: 60px 0 30px 0;
+            border-top: 1px solid var(--its-border);
+            color: #666;
+            margin-top: 80px;
+        }
+        .footer-container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-col h4 { color: #1d1d1f; margin-bottom: 20px; font-size: 16px; font-weight: 600; }
+        .footer-col p, .footer-col a { 
+            font-size: 14px; color: #666; text-decoration: none; 
+            margin: 10px 0; display: flex; align-items: center; gap: 8px;
+        }
+        .footer-col a:hover { color: var(--accent); }
+        .social-icons { display: flex; gap: 15px; margin-top: 15px; }
+        .social-icons i { cursor: pointer; transition: color 0.3s; }
+        .social-icons i:hover { color: var(--accent); }
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 25px;
+            font-size: 12px;
+            color: #999;
         }
 
-        .btn-add:hover { background: #0077ed; }
-
-        .cart-bar {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px);
-            color: white; padding: 15px 30px; border-radius: 50px;
-            display: none; align-items: center; gap: 30px; z-index: 1000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        @media (max-width: 900px) {
+            .main-container { grid-template-columns: 1fr; }
+            .nav-menu { display: none; } /* Ocultar menú en móvil para simplicidad */
+            h1 { font-size: 36px; }
         }
-
-        .btn-whatsapp { background: #25d366; color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>TecnoMarket</h1>
-    <p class="subtitle">Innovación que inspira.</p>
-</header>
-
-<div class="container">
-    <div class="grid">
-        
-        <div class="card">
-            <a href="001.html" style="text-decoration:none; color:inherit;">
-                <div class="contenedor-foto">
-                    <img src="img/001A.jpeg" class="foto-a">
-                    <img src="img/001B.jpeg" class="foto-b">
-                </div>
-                <h2>Parlante Touch</h2>
-                <p class="apple-desc">Sonido que se siente. Control que fluye.</p>
-                <div class="price">S/ 20</div>
-            </a>
-            <button class="btn-add" onclick="addToCart('Parlante Touch', 20)">
-                <i data-lucide="plus"></i> Añadir
-            </button>
+<nav class="its-header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="index.html">TecnoMarket</a>
         </div>
-
-        <div class="card">
-            <a href="002.html" style="text-decoration:none; color:inherit;">
-                <div class="contenedor-foto">
-                    <img src="img/002A.jpeg" class="foto-a">
-                    <img src="img/002B.jpeg" class="foto-b">
-                </div>
-                <h2>Ventilador Humificador</h2>
-                <p class="apple-desc">Frescura en cada gota. Silencio puro.</p>
-                <div class="price">S/ 25</div>
-            </a>
-            <button class="btn-add" onclick="addToCart('Ventilador Humificador', 25)">
-                <i data-lucide="plus"></i> Añadir
-            </button>
+        <ul class="nav-menu">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="#">Productos</a></li>
+            <li><a href="#">Nosotros</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+        <div class="header-actions">
+            <i data-lucide="shopping-cart" size="20" style="cursor:pointer"></i>
+            <a href="#" class="btn-portal">Mi Cuenta</a>
         </div>
+    </div>
+</nav>
 
-        <div class="card">
-            <a href="003.html" style="text-decoration:none; color:inherit;">
-                <div class="contenedor-foto">
-                    <img src="img/003A.jpeg" class="foto-a">
-                    <img src="img/003B.jpeg" class="foto-b">
-                </div>
-                <h2>Aire Acondicionado</h2>
-                <p class="apple-desc">Domina el clima de tu espacio.</p>
-                <div class="price">S/ 15</div>
-            </a>
-            <button class="btn-add" onclick="addToCart('Aire Acondicionado', 15)">
-                <i data-lucide="plus"></i> Añadir
-            </button>
+<div class="main-container">
+    <div class="gallery-section">
+        <img src="img/001A.jpeg" alt="Parlante Touch">
+        <img src="img/001B.jpeg" alt="Especificaciones Técnicas">
+    </div>
+
+    <div class="info-section">
+        <span class="new-tag">Nuevo</span>
+        <h1>Parlante Touch</h1>
+        <p class="tagline">Sonido que se siente. Control que fluye.</p>
+        <div class="price">S/ 20</div>
+
+        <div class="specs-grid">
+            <div class="spec-card">
+                <i data-lucide="zap"></i>
+                <span>Control Táctil de Alta Precisión</span>
+            </div>
+            <div class="spec-card">
+                <i data-lucide="bluetooth"></i>
+                <span>Conexión Inalámbrica Estable</span>
+            </div>
+            <div class="spec-card">
+                <i data-lucide="sun"></i>
+                <span>Iluminación LED Integrada</span>
+            </div>
+            <div class="spec-card">
+                <i data-lucide="battery-full"></i>
+                <span>Batería de Larga Duración</span>
+            </div>
         </div>
 
-        <div class="card">
-            <a href="004.html" style="text-decoration:none; color:inherit;">
-                <div class="contenedor-foto">
-                    <img src="img/004A.jpeg" class="foto-a">
-                    <img src="img/004B.jpeg" class="foto-b">
-                </div>
-                <h2>Ventilador de Cuello</h2>
-                <p class="apple-desc">Tu propia corriente de aire personal.</p>
-                <div class="price">S/ 15</div>
-            </a>
-            <button class="btn-add" onclick="addToCart('Ventilador de Cuello', 15)">
-                <i data-lucide="plus"></i> Añadir
-            </button>
-        </div>
+        <p style="color: var(--gray); font-size: 15px; line-height: 1.6; margin-bottom: 35px;">
+            El Parlante Touch combina un diseño minimalista con tecnología de vanguardia. Ideal para cualquier espacio, permite gestionar tu música con un solo toque mientras su luz ambiental crea la atmósfera perfecta.
+        </p>
 
-        <div class="card">
-            <a href="005.html" style="text-decoration:none; color:inherit;">
-                <div class="contenedor-foto">
-                    <img src="img/005A.jpeg" class="foto-a">
-                    <img src="img/005B.jpeg" class="foto-b">
-                </div>
-                <h2>Set Teclado y Mouse</h2>
-                <p class="apple-desc">Precisión sin cables. Minimalismo puro.</p>
-                <div class="price">S/ 15</div>
-            </a>
-            <button class="btn-add" onclick="addToCart('Set Teclado y Mouse', 15)">
-                <i data-lucide="plus"></i> Añadir
-            </button>
-        </div>
-<div class="card">
-    <a href="006.html" style="text-decoration:none; color:inherit;">
-        <div class="contenedor-foto">
-            <img src="img/006A.jpeg" class="foto-a">
-            <img src="img/006B.jpeg" class="foto-b">
-        </div>
-        <h2>Ventilador de Mano</h2>
-        <p class="apple-desc">Potencia en la palma de tu mano. Frescura total.</p>
-        <div class="price">S/ 15</div>
-    </a>
-    <button class="btn-add" onclick="addToCart('Ventilador de Mano', 15)">
-        <i data-lucide="plus"></i> Añadir
-    </button>
-</div>
+        <a href="https://wa.me/51942950226?text=¡Hola! Me gustaría llevar el Parlante Touch (S/ 20)" class="buy-btn">
+            Comprar ahora
+        </a>
     </div>
 </div>
 
-<div id="cartBar" class="cart-bar">
-    <div id="cartCount">0 items</div>
-    <a id="wspLink" href="#" class="btn-whatsapp">
-        <i data-lucide="message-circle"></i> Pedir por WhatsApp
-    </a>
-</div>
+<footer class="its-footer">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>TecnoMarket</h4>
+                <p>Innovando en tecnología para tu hogar y oficina. Calidad premium garantizada.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Contacto</h4>
+                <p><i data-lucide="mail" size="16"></i> ventas@tecnomarket.pe</p>
+                <p><i data-lucide="phone" size="16"></i> +51 942 950 226</p>
+                <p><i data-lucide="map-pin" size="16"></i> Lima, Perú</p>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Políticas de Cookies</a>
+                <a href="#">Libro de Reclamaciones</a>
+            </div>
+            <div class="footer-col">
+                <h4>Síguenos</h4>
+                <div class="social-icons">
+                    <i data-lucide="facebook"></i>
+                    <i data-lucide="instagram"></i>
+                    <i data-lucide="twitter"></i>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 TecnoMarket · Todos los derechos reservados</p>
+        </div>
+    </div>
+</footer>
 
 <script>
-    let cart = [];
-    const WHATSAPP_NUMBER = "51942950226";
-
-    function addToCart(name, price) {
-        cart.push({ name, price });
-        updateCartUI();
-    }
-
-    function updateCartUI() {
-        const cartBar = document.getElementById('cartBar');
-        const cartCount = document.getElementById('cartCount');
-        const wspLink = document.getElementById('wspLink');
-
-        if (cart.length > 0) {
-            cartBar.style.display = 'flex';
-            cartCount.innerText = `${cart.length} productos listos`;
-            let total = cart.reduce((sum, item) => sum + item.price, 0);
-            let message = "¡Hola TecnoMarket! 👋 Quisiera estos productos:\n\n";
-            cart.forEach((item, i) => message += `${i+1}. ${item.name} - S/ ${item.price}\n`);
-            message += `\n*Total: S/ ${total}*`;
-            wspLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-        }
-    }
     lucide.createIcons();
 </script>
 </body>
