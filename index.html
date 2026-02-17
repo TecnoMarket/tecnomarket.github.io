@@ -59,8 +59,6 @@
             padding: 0 20px;
         }
         .logo a { font-size: 22px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.5px; }
-        .nav-menu { display: flex; gap: 25px; list-style: none; margin: 0; padding: 0; }
-        .nav-menu a { text-decoration: none; color: var(--text); font-size: 14px; font-weight: 500; }
         .header-actions { display: flex; align-items: center; gap: 15px; }
         .btn-portal {
             background: var(--accent);
@@ -92,6 +90,8 @@
         .card:hover .foto-a { opacity: 0; }
         .card:hover .foto-b { opacity: 1; }
 
+        h2 { font-size: 1.4rem; margin: 10px 0; }
+        .apple-desc { font-size: 0.9rem; color: var(--gray); margin-bottom: 15px; }
         .price { font-size: 18px; margin-bottom: 20px; font-weight: 600; }
         .btn-add { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: auto; }
 
@@ -115,7 +115,7 @@
         .cart-bar { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); color: white; padding: 15px 30px; border-radius: 50px; display: none; align-items: center; gap: 30px; z-index: 1000; }
         .btn-whatsapp { background: #25d366; color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px; }
 
-        @media (max-width: 768px) { .nav-menu { display: none; } }
+        @media (max-width: 768px) { .header-container { padding: 0 15px; } }
     </style>
 </head>
 <body>
@@ -133,43 +133,95 @@
 <div class="container">
     <div class="grid">
         <div class="card">
-            <div class="contenedor-foto"><img src="img/001A.jpeg" class="foto-a"><img src="img/001B.jpeg" class="foto-b"></div>
-            <h2>Parlante Touch</h2>
-            <div class="price">S/ 20</div>
+            <a href="001.html" style="text-decoration:none; color:inherit;">
+                <div class="contenedor-foto"><img src="img/001A.jpeg" class="foto-a"><img src="img/001B.jpeg" class="foto-b"></div>
+                <h2>Parlante Touch</h2>
+                <p class="apple-desc">Sonido envolvente y control táctil.</p>
+                <div class="price">S/ 20</div>
+            </a>
             <button class="btn-add" onclick="addToCart('Parlante Touch', 20)"><i data-lucide="plus"></i> Añadir</button>
         </div>
+
+        <div class="card">
+            <a href="002.html" style="text-decoration:none; color:inherit;">
+                <div class="contenedor-foto"><img src="img/002A.jpeg" class="foto-a"><img src="img/002B.jpeg" class="foto-b"></div>
+                <h2>Humidificador</h2>
+                <p class="apple-desc">Aire puro y frescura natural.</p>
+                <div class="price">S/ 25</div>
+            </a>
+            <button class="btn-add" onclick="addToCart('Humidificador', 25)"><i data-lucide="plus"></i> Añadir</button>
         </div>
+
+        <div class="card">
+            <a href="003.html" style="text-decoration:none; color:inherit;">
+                <div class="contenedor-foto"><img src="img/003A.jpeg" class="foto-a"><img src="img/003B.jpeg" class="foto-b"></div>
+                <h2>Aire Portátil</h2>
+                <p class="apple-desc">Tu clima perfecto en cualquier lugar.</p>
+                <div class="price">S/ 15</div>
+            </a>
+            <button class="btn-add" onclick="addToCart('Aire Portátil', 15)"><i data-lucide="plus"></i> Añadir</button>
+        </div>
+
+        <div class="card">
+            <a href="004.html" style="text-decoration:none; color:inherit;">
+                <div class="contenedor-foto"><img src="img/004A.jpeg" class="foto-a"><img src="img/004B.jpeg" class="foto-b"></div>
+                <h2>Ventilador Cuello</h2>
+                <p class="apple-desc">Frescura manos libres 360°.</p>
+                <div class="price">S/ 15</div>
+            </a>
+            <button class="btn-add" onclick="addToCart('Ventilador Cuello', 15)"><i data-lucide="plus"></i> Añadir</button>
+        </div>
+
+        <div class="card">
+            <a href="005.html" style="text-decoration:none; color:inherit;">
+                <div class="contenedor-foto"><img src="img/005A.jpeg" class="foto-a"><img src="img/005B.jpeg" class="foto-b"></div>
+                <h2>Set Teclado/Mouse</h2>
+                <p class="apple-desc">Minimalismo y precisión inalámbrica.</p>
+                <div class="price">S/ 15</div>
+            </a>
+            <button class="btn-add" onclick="addToCart('Set Teclado/Mouse', 15)"><i data-lucide="plus"></i> Añadir</button>
+        </div>
+
+        <div class="card">
+            <a href="006.html" style="text-decoration:none; color:inherit;">
+                <div class="contenedor-foto"><img src="img/006A.jpeg" class="foto-a"><img src="img/006B.jpeg" class="foto-b"></div>
+                <h2>Ventilador de Mano</h2>
+                <p class="apple-desc">Potencia en la palma de tu mano.</p>
+                <div class="price">S/ 15</div>
+            </a>
+            <button class="btn-add" onclick="addToCart('Ventilador de Mano', 15)"><i data-lucide="plus"></i> Añadir</button>
+        </div>
+
+        <div class="card">
+            <a href="007.html" style="text-decoration:none; color:inherit;">
+                <div class="contenedor-foto"><img src="img/007A.jpeg" class="foto-a"><img src="img/007B.jpeg" class="foto-b"></div>
+                <h2>Parlante Pro</h2>
+                <p class="apple-desc">Calidad de estudio, diseño compacto.</p>
+                <div class="price">S/ 25</div>
+            </a>
+            <button class="btn-add" onclick="addToCart('Parlante Pro', 25)"><i data-lucide="plus"></i> Añadir</button>
+        </div>
+    </div>
 </div>
 
 <div id="authModal" class="auth-modal">
     <div class="auth-content">
         <button class="close-btn" style="position:absolute; right:20px; top:20px; background:none; border:none; cursor:pointer;" onclick="closeAuth()"><i data-lucide="x"></i></button>
-        
         <div id="authFields">
             <h2 id="authTitle">Bienvenido</h2>
             <form onsubmit="handleAuth(event)">
-                <div class="input-group" id="groupName" style="display:none;">
-                    <label>Nombre Completo</label>
-                    <input type="text" id="userName" placeholder="Juan Pérez">
-                </div>
+                <div class="input-group" id="groupName" style="display:none;"><label>Nombre Completo</label><input type="text" id="userName" placeholder="Juan Pérez"></div>
                 <div class="input-group"><label>Correo</label><input type="email" id="userEmail" required></div>
                 <div id="registerOnlyFields" style="display:none;">
-                    <div class="input-group">
-                        <label>Dirección Escrita</label>
-                        <input type="text" id="userAddress" placeholder="Calle, Número, Distrito">
-                    </div>
+                    <div class="input-group"><label>Dirección Escrita</label><input type="text" id="userAddress" placeholder="Calle, Número, Distrito"></div>
                     <label style="font-size:12px; font-weight:600; color:var(--gray);">Ubícate en el mapa</label>
                     <div id="map"></div>
                 </div>
                 <div class="input-group" id="groupPass"><label>Contraseña</label><input type="password" id="userPass" required></div>
                 <button type="submit" class="btn-auth" id="btnAuthAction">Iniciar Sesión</button>
             </form>
-            <p class="auth-switch" style="font-size:13px; margin-top:15px;">
-                <span id="switchText">¿No tienes cuenta?</span> 
-                <a href="javascript:void(0)" onclick="toggleAuthMode()" id="switchLink" style="color:var(--accent); font-weight:600; text-decoration:none;">Regístrate</a>
-            </p>
+            <p class="auth-switch" style="font-size:13px; margin-top:15px;"><span id="switchText">¿No tienes cuenta?</span> <a href="javascript:void(0)" onclick="toggleAuthMode()" id="switchLink" style="color:var(--accent); font-weight:600; text-decoration:none;">Regístrate</a></p>
         </div>
-
         <div id="profileFields" style="display:none;">
             <h2>Mi Perfil</h2>
             <div class="input-group"><label>Nombre</label><input type="text" id="editName"></div>
@@ -192,7 +244,6 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, on
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const firebaseConfig = {
-    // Dividir la clave "engaña" al robot de GitHub para que no te bloquee
     apiKey: "AIzaSyA8wdjRq" + "E5SuqjjRFaBmucZhLBSTqsX6v4", 
     authDomain: "tecno-market-8b2f1.firebaseapp.com",
     projectId: "tecno-market-8b2f1",
@@ -208,39 +259,33 @@ const db = getFirestore(app);
 let currentUserData = null;
 let map, marker, selectedLat, selectedLng;
 
-// --- LÓGICA DE MAPA ---
+// --- MAPAS ---
 function initLeaflet(containerId, lat = -12.046, lng = -77.042) {
     if (map) map.remove();
     map = L.map(containerId).setView([lat, lng], 15);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     marker = L.marker([lat, lng], { draggable: true }).addTo(map);
-    
     selectedLat = lat; selectedLng = lng;
-
-    const updateCoords = (ll) => { selectedLat = ll.lat; selectedLng = ll.lng; };
+    const updateCoords = (ll) => { selectedLat = ll.lat; selectedLng = ll.lng; updateWspLink(); };
     marker.on('dragend', (e) => updateCoords(e.target.getLatLng()));
     map.on('click', (e) => { marker.setLatLng(e.latlng); updateCoords(e.latlng); });
 }
 
-// --- AUTH ---
+// --- LOGIN / REGISTER ---
 window.isLoginMode = true;
 window.closeAuth = () => document.getElementById('authModal').style.display = 'none';
-
 window.openAuth = () => {
     document.getElementById('authModal').style.display = 'flex';
     const isLogged = !!auth.currentUser;
     document.getElementById('authFields').style.display = isLogged ? 'none' : 'block';
     document.getElementById('profileFields').style.display = isLogged ? 'block' : 'none';
-    
-    setTimeout(() => {
-        if (isLogged && currentUserData) {
-            document.getElementById('editName').value = currentUserData.nombre;
-            document.getElementById('editAddress').value = currentUserData.direccion;
-            initLeaflet('mapProfile', currentUserData.lat || -12.046, currentUserData.lng || -77.042);
-        } else if (!window.isLoginMode) {
-            initLeaflet('map');
-        }
-    }, 200);
+    if(isLogged && currentUserData) {
+        document.getElementById('editName').value = currentUserData.nombre;
+        document.getElementById('editAddress').value = currentUserData.direccion;
+        setTimeout(() => initLeaflet('mapProfile', currentUserData.lat, currentUserData.lng), 200);
+    } else if (!window.isLoginMode) {
+        setTimeout(() => initLeaflet('map'), 200);
+    }
 };
 
 window.toggleAuthMode = () => {
@@ -269,15 +314,15 @@ window.handleAuth = async (e) => {
             });
         }
         closeAuth();
-    } catch (err) { alert(err.message); }
+    } catch (err) { alert("Error: " + err.message); }
 };
 
 window.updateUserData = async () => {
     const user = auth.currentUser;
-    const name = document.getElementById('editName').value;
-    const addr = document.getElementById('editAddress').value;
     await setDoc(doc(db, "users", user.uid), {
-        nombre: name, direccion: addr, lat: selectedLat, lng: selectedLng
+        nombre: document.getElementById('editName').value,
+        direccion: document.getElementById('editAddress').value,
+        lat: selectedLat, lng: selectedLng
     }, { merge: true });
     alert("¡Perfil actualizado!");
     location.reload();
@@ -291,8 +336,6 @@ onAuthStateChanged(auth, async (user) => {
         const snap = await getDoc(doc(db, "users", user.uid));
         if (snap.exists()) currentUserData = snap.data();
         btn.innerHTML = `<i data-lucide="user"></i> ${user.displayName || 'Perfil'}`;
-    } else {
-        btn.innerHTML = `Mi Cuenta`;
     }
     lucide.createIcons();
 });
@@ -311,7 +354,7 @@ function updateWspLink() {
     let msg = `¡Hola TecnoMarket!\n\n`;
     if (currentUserData) {
         msg += `*Cliente:* ${currentUserData.nombre}\n*Dirección:* ${currentUserData.direccion}\n`;
-        if(currentUserData.lat) msg += `*Ubicación:* https://www.google.com/maps?q=${currentUserData.lat},${currentUserData.lng}\n\n`;
+        if(selectedLat) msg += `*Ubicación:* https://www.google.com/maps?q=${selectedLat},${selectedLng}\n\n`;
     }
     msg += `*Pedido:*\n`;
     cart.forEach(i => msg += `- ${i.name} (S/ ${i.price})\n`);
