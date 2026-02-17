@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parlante Pro | TecnoMarket</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root { --apple-bg: #f5f5f7; --white: #ffffff; --text: #1d1d1f; --accent: #0071e3; --gray: #86868b; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--apple-bg); color: var(--text); margin: 0; }
+        nav { background: rgba(245, 245, 247, 0.8); backdrop-filter: blur(20px); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #d2d2d7; }
+        .back-btn { text-decoration: none; color: var(--text); font-size: 14px; display: flex; align-items: center; gap: 5px; }
+        .main-container { max-width: 1100px; margin: 40px auto; padding: 20px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 50px; }
+        .gallery-section img { width: 100%; border-radius: 30px; background: var(--white); padding: 40px; box-sizing: border-box; margin-bottom: 20px; }
+        .info-section { position: sticky; top: 100px; height: fit-content; }
+        .new-tag { color: #bf4800; font-size: 14px; font-weight: 600; margin-bottom: 10px; display: block; }
+        h1 { font-size: 48px; font-weight: 600; margin: 0; }
+        .tagline { font-size: 24px; color: var(--gray); margin-bottom: 20px; }
+        .price { font-size: 24px; font-weight: 400; margin-bottom: 40px; }
+        .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px; }
+        .spec-card { background: var(--white); padding: 25px 15px; border-radius: 20px; text-align: center; }
+        .spec-card i { color: var(--accent); margin-bottom: 12px; }
+        .spec-card span { display: block; font-size: 13px; font-weight: 500; }
+        .buy-btn { background: var(--accent); color: white; padding: 18px; border-radius: 14px; text-decoration: none; display: block; text-align: center; font-weight: 600; }
+        @media (max-width: 900px) { .main-container { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="index.html" class="back-btn"><i data-lucide="chevron-left"></i> Tienda</a>
+    <strong>TecnoMarket</strong>
+    <i data-lucide="music" size="20"></i>
+</nav>
+<div class="main-container">
+    <div class="gallery-section">
+        <img src="img/007A.jpeg" alt="Parlante Pro">
+        <img src="img/007B.jpeg" alt="Detalle">
+    </div>
+    <div class="info-section">
+        <span class="new-tag">Sonido Premium</span>
+        <h1>Parlante Pro</h1>
+        <p class="tagline">Pequeño en tamaño. Gigante en sonido.</p>
+        <div class="price">S/ 25</div>
+        <div class="specs-grid">
+            <div class="spec-card"><i data-lucide="volume-2"></i><span>Bajos Profundos</span></div>
+            <div class="spec-card"><i data-lucide="bluetooth-connected"></i><span>Conexión Instantánea</span></div>
+            <div class="spec-card"><i data-lucide="battery-medium"></i><span>12h de Música</span></div>
+            <div class="spec-card"><i data-lucide="mic"></i><span>Manos Libres HD</span></div>
+        </div>
+        <p style="color: var(--gray); line-height: 1.6; margin-bottom: 35px;">
+            El Parlante Pro redefine lo que un dispositivo compacto puede hacer. Con una acústica ajustada para ofrecer claridad en cada nota y una construcción robusta, es el compañero perfecto para tu escritorio o tus viajes.
+        </p>
+        <a href="https://wa.me/51942950226?text=¡Hola! Quisiera el Parlante Pro (S/ 25)" class="buy-btn">Comprar ahora</a>
+    </div>
+</div>
+<script>lucide.createIcons();</script>
+</body>
+</html>
